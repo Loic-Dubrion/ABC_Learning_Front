@@ -1,0 +1,11 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Pour s'assurer que le pied de page est toujours en bas
+
+  .home-content {
+      flex: 1; // Prend tout l'espace disponible entre l'en-tête et le pied de page
+      text-align: center; // Centre le texte horizontalement
+      padding: 20px; // Espacement
+  }
+}

@@ -1,0 +1,27 @@
+.card-desk {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start; 
+
+  > div {  // Cible directement les éléments enfants 'div' de .card-desk
+    flex: 1 1 400px;  // Permet aux éléments de grandir, de rétrécir, et défini une base de 240px de largeur
+    max-width: calc(33.33% - 20px);  // Limite la largeur maximale à environ un tiers de l'espace disponible (en tenant compte de l'espace entre les éléments)
+  }
+
+  // Pour les petits écrans (mobile)
+  @media (max-width: 576px) {
+    justify-content: center;
+
+    > div {
+      max-width: 100%;  // Permet à chaque bloc de prendre toute la largeur disponible sur les petits écrans
+    }
+  }
+
+  // Pour les tablettes et les écrans moyens
+  @media (min-width: 577px) and (max-width: 992px) {
+    > div {
+      max-width: calc(50% - 20px);  // Sur les écrans moyens, chaque bloc peut prendre jusqu'à la moitié de l'espace disponible
+    }
+  }
+}

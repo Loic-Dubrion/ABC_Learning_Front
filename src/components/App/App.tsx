@@ -1,27 +1,19 @@
-import logo from '../../assets/logo.svg';
-
 import './App.scss';
+import { Provider } from 'react-redux';
+import store from '../../globalRedux/store'; // Votre chemin d'accès au store peut varier
+import Header from './Header/Header';
+import Footer from './Footer/Footer';
+import CardDesk from './CardDesk/CardDesk';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-
-        <p>
-          Edit <code>src/components/App/App.tsx</code> and save to reload.
-        </p>
-
-        <a
-          className="App-link"
-          href="https://react.dev/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Header logo="/logo.png" title="ABC Learning" subtitle="Création de scénario" />
+        <CardDesk />
+        <Footer />
+      </div>
+    </Provider>
   );
 }
 
