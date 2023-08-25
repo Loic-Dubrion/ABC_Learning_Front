@@ -5,6 +5,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 import cardRectoReducer from './cardRectoSlice';
 import cardVersoReducer from './cardVersoSlice';
 import menuReducer from './menuSlice';
+import authReducer from './authSlice';
 
 // Utilisation de `combineReducers` pour fusionner nos différents reducers en un seul
 // Chaque reducer sera responsable d'une tranche spécifique de l'état global de l'application
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   cardRecto: cardRectoReducer, // tranche 'cardRecto' de l'état global
   cardVerso: cardVersoReducer, // tranche 'cardVerso' de l'état global
   menu: menuReducer,
+  auth: authReducer,
   // Ajoutez d'autres reducers ici si vous en avez
 });
 
