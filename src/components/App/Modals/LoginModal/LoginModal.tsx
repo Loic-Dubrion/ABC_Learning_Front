@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { setTokens } from '../../../../globalRedux/store/reducers/authSlice'; // Remplacez par le chemin correct vers votre fichier authSlice
 import { LoginModalProps } from './LoginModalTypes';
 
+import '../Modals.scss';
+
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
   const dispatch = useDispatch();
 

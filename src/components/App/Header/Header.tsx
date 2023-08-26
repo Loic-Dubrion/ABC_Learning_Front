@@ -28,12 +28,15 @@ function Header({ logo, title, subtitle }: HeaderProps) {
       <Link to="/" className="header-logoLink">
         <img src={logo} alt="Logo" className="header-logo" />
       </Link>
-      <div className='header-content'>
+      <div className="header-content">
         <h1 className="header-title">{title}</h1>
         <h2 className="header-subtitle">{subtitle}</h2>
       </div>
-      <div className="burger-menu-icon" onClick={() => dispatch(toggleMenu())}>
-        ☰  {/* Vous pouvez remplacer cela par une icône ou une image */}
+      <div 
+        className={`burger-menu-icon ${isMenuOpen ? 'cross' : ''}`} 
+        onClick={() => dispatch(toggleMenu())}
+      >
+        {isMenuOpen ? '✖' : '☰'}
       </div>
 
       {isMenuOpen && (
@@ -43,7 +46,6 @@ function Header({ logo, title, subtitle }: HeaderProps) {
         </div>
       )}
 
-      {/* Ajout de la modal de connexion */}
       <LoginModal isOpen={isLoginModalOpen} onClose={handleCloseLoginModal} />
     </div>
   );
