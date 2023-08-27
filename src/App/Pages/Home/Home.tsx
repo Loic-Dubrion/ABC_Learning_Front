@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../Header/Header'; // Assurez-vous d'avoir le bon chemin d'importation
-import Footer from '../Footer/Footer'; // Assurez-vous d'avoir le bon chemin d'importation
+import Header from '../../components/Header/Header'; // Assurez-vous d'avoir le bon chemin d'importation
+import Footer from '../../components/Footer/Footer'; // Assurez-vous d'avoir le bon chemin d'importation
 
 const Home = () => {
     return (

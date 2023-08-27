@@ -7,27 +7,30 @@ type AuthState = {
   refreshToken: string | null;   // Token pour le rafraîchissement de l'accès
 };
 
-// État initial pour la partie authentification du store Redux
+// Récupération initiale du refreshToken depuis le localStorage
 const initialState: AuthState = {
   accessToken: null,
-  refreshToken: null,
+  refreshToken: localStorage.getItem('refreshToken'),
 };
 
 // Création d'une "slice" pour l'authentification. 
 // Une "slice" inclut les réducteurs et les actions.
 const authSlice = createSlice({
-  name: 'auth',                          // Nom de la slice
-  initialState,                          // État initial
+  name: 'auth',
+  initialState,
   reducers: {
-    // Action pour définir les tokens (d'accès et de rafraîchissement)
     setTokens: (state: AuthState, action: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+      // Sauvegarde du refreshToken dans le localStorage lors de la mise à jour
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
-    // Action pour effacer/clear les tokens
     clearTokens: (state: AuthState) => {
       state.accessToken = null;
       state.refreshToken = null;
+      // Suppression des tokens du localStorage
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
     },
   },
 });

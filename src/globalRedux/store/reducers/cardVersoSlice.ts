@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Import des interfaces pour les données du verso des cartes
-import { CardVersoData } from '../../../components/App/CardDesk/CardVerso/CardVersoTypes';
+import { CardVersoData } from '../../../App/CardDesk/CardVerso/CardVersoTypes';
 
 // L'interface pour l'état de la tranche (slice) 'cardVerso'
 interface CardVersoState {

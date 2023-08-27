@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './index';
 
 // Importation du type spécifique pour la data de la carte recto depuis les types de composant
-import { CardRectoData } from '../../../components/App/CardDesk/CardRecto/CardRectoTypes';
+import { CardRectoData } from '../../../App/CardDesk/CardRecto/CardRectoTypes';
 
 // Définition de la forme de l'état pour la tranche 'cardRecto' du store Redux
 interface CardRectoState {

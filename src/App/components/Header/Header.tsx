@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './Header.scss';
-import LoginModal from '../Modals/LoginModal/LoginModal'; // Ajustez le chemin d'accès
+import LoginModal from '../../components/Modals/LoginModal/LoginModal'; // Ajustez le chemin d'accès
 import { toggleMenu } from '../../../globalRedux/store/reducers/menuSlice';
 import { HeaderProps } from './HeaderTypes';
 
@@ -43,6 +43,7 @@ function Header({ logo, title, subtitle }: HeaderProps) {
         <div className="burger-menu">
           <Link to="#" onClick={handleLoginClick}>Se connecter</Link>
           <Link to="/create-session">Créer un scénario</Link>
+          <Link to="/profil">Profil</Link>
         </div>
       )}
 

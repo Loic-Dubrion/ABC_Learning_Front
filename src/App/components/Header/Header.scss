@@ -63,7 +63,7 @@
 
 .burger-menu {
   position: absolute;
-  top: 100%;
+  top: 60%;
   right: 20px;
   width: 200px;
   background-color: #fff;
@@ -81,13 +81,11 @@
     font-weight: 500;
     background-color: transparent;
 
-    // Effet de bordure
     border-bottom: 1px solid #e5e5e5;
     &:last-child {
       border-bottom: none;
     }
 
-    // Effets de survol et d'activation
     &:hover {
       background-color: #f7f7f7;
     }
@@ -96,4 +94,8 @@
       background-color: #eee;
     }
   }
+}
+
+.burger-menu-icon {
+  cursor: pointer;
 }

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setTokens } from '../../../../globalRedux/store/reducers/authSlice'; // Remplacez par le chemin correct vers votre fichier authSlice
+import { setTokens } from '../../../../globalRedux/store/reducers/authSlice';
 import { LoginModalProps } from './LoginModalTypes';
+import jwtDecode from 'jwt-decode';
+import axiosInstance from '../../../../utils/axios';
 
 import '../Modals.scss';
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess }) => {
   const dispatch = useDispatch();
 
-  // Initialisation du state
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,15 +24,37 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
     setIsSubmitting(true);
     setError(null);
 
-    // Ici, effectuez la requête de connexion. Si elle réussit, dispatchez setTokens
-    // Pour le moment, je vais simuler une réponse réussie après un délai.
-
-    setTimeout(() => {
+    try {
+      const response = await axiosInstance.post('/log/in', formData);
+      console.log("Réponse reçue:", response.data);
+  
+      if (response.data && response.data.status === 'success') {
+        const { accessToken, refreshToken } = response.data.data;
+  
+        // Décodage du token d'accès
+        const decodedToken: any = jwtDecode(accessToken);
+        const { id, username, roles, permissions } = decodedToken.data;
+  
+        // Stockage des tokens et des données d'utilisateur dans le localStorage
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
+        localStorage.setItem('userId', id.toString());
+        localStorage.setItem('username', username);
+        localStorage.setItem('roles', JSON.stringify(roles));
+        localStorage.setItem('permissions', JSON.stringify(permissions));
+  
+        dispatch(setTokens({ accessToken, refreshToken }));
+        onLoginSuccess && onLoginSuccess({ accessToken, refreshToken });
+        onClose();
+      } else {
+        setError("Erreur lors de la connexion");
+      }
+    } catch (err) {
+      console.error("Erreur lors de la requête:", err);
+      setError("Une erreur est survenue lors de la tentative de connexion");
+    } finally {
       setIsSubmitting(false);
-      dispatch(setTokens({ accessToken: 'mockAccessToken', refreshToken: 'mockRefreshToken' }));
-      onLoginSuccess && onLoginSuccess({ accessToken: 'mockAccessToken', refreshToken: 'mockRefreshToken' });
-      onClose();
-    }, 1000);
+    }
   };
 
   if (!isOpen) return null;
