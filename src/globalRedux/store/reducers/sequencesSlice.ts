@@ -1,23 +1,7 @@
 // slices/sequenceSlice.ts
-
+import { Sequence, SequencesState } from '../../../App/components/User/SequencesList/SequencesTypes'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './index';  // Importez le RootState depuis l'emplacement approprié
-
-// Type pour une séquence individuelle
-export interface Sequence {
-  id: number;
-  name: string;
-  user_id: number;
-  created_at: string;
-  updated_at: string | null;
-}
-
-// État initial pour la tranche 'sequences'
-interface SequencesState {
-  sequences: Sequence[];
-  loading: boolean;
-  error: string | null;
-}
 
 const initialState: SequencesState = {
   sequences: [],

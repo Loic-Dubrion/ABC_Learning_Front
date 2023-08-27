@@ -1,0 +1,16 @@
+// Profil.scss
+
+.profil {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+}
