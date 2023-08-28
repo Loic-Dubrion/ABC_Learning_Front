@@ -1,0 +1,32 @@
+// components/Tabs/Tabs.scss
+
+.tabs {
+  &-header {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #f5f5f5;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &.active {
+        background: #e0e0e0;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &:hover {
+        background: #e0e0e0;
+      }
+    }
+  }
+
+  &-content {
+    padding: 20px;
+  }
+}

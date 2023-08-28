@@ -30,7 +30,7 @@ const Sequences: React.FC = () => {
 
   return (
     <div className="sequences">
-      <h2 className="sequences__title">Mes séquences</h2>
+      <h2 className="sequences__title">Mes Scénarii</h2>
       {sequences.map((sequence: Sequence) => (
         <Link key={sequence.id} to={`/sequence/${sequence.id}`} className="sequences__link">
           <div className="sequences__item">

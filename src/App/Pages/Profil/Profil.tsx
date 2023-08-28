@@ -12,7 +12,7 @@ const username = localStorage.getItem('username');
 const Profil = () => {
     const tabs = [
       { label: "Profil Infos", component: <ProfilInfos /> },
-      { label: "Mes Séquences", component: <Sequences /> }
+      { label: "Mes Scénarii", component: <Sequences /> }
     ];
 
     return (

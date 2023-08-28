@@ -42,7 +42,7 @@ function Header({ logo, title, subtitle }: HeaderProps) {
       {isMenuOpen && (
         <div className="burger-menu">
           <Link to="#" onClick={handleLoginClick}>Se connecter</Link>
-          <Link to="/create-session">Créer un scénario</Link>
+          <Link to="/create-sequence">Créer un scénario</Link>
           <Link to="/profil">Profil</Link>
         </div>
       )}
