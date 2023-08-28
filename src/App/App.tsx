@@ -10,8 +10,9 @@ import store from '../globalRedux/store';
 
 // Importations des composants de pages
 import Home from './Pages/Home/Home'; 
-import CreateSequence from './Pages/CreateSequence/CreateSequence';
+import CreateSequence from './Pages/Sequence/CreateSequence';
 import Profil from './Pages/Profil/Profil'; 
+import Sequence from './Pages/Sequence/Sequence';
 
 // Composant principal App
 function App() {
@@ -31,6 +32,8 @@ function App() {
           <Route path="/create-sequence" element={<CreateSequence />} />
           {/* Route pour la page profil */}
           <Route path='/profil' element={<Profil />} />
+          {/* Route pour la page de détails de la séquence */}
+          <Route path="profil/user/:userId/sequence/:sequenceId" element={<Sequence />} />
 
         </Routes>
       </Router>

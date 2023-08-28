@@ -7,16 +7,17 @@ import cardVersoReducer from './cardVersoSlice';
 import menuReducer from './menuSlice';
 import authReducer from './authSlice';
 import sequencesReducer from './sequencesSlice';
+import sequenceReducer from './sequenceDetailSlice';
 
 // Utilisation de `combineReducers` pour fusionner nos différents reducers en un seul
 // Chaque reducer sera responsable d'une tranche spécifique de l'état global de l'application
 const rootReducer = combineReducers({
-  cardRecto: cardRectoReducer, // tranche 'cardRecto' de l'état global
-  cardVerso: cardVersoReducer, // tranche 'cardVerso' de l'état global
+  cardRecto: cardRectoReducer, 
+  cardVerso: cardVersoReducer, 
   menu: menuReducer,
   auth: authReducer,
   sequences: sequencesReducer,
-  // Ajoutez d'autres reducers ici si vous en avez
+  sequenceDetail: sequenceReducer,
 });
 
 // Définition d'un type pour l'état global de l'application

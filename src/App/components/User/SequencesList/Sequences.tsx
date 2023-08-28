@@ -32,7 +32,7 @@ const Sequences: React.FC = () => {
     <div className="sequences">
       <h2 className="sequences__title">Mes Scénarii</h2>
       {sequences.map((sequence: Sequence) => (
-        <Link key={sequence.id} to={`/sequence/${sequence.id}`} className="sequences__link">
+        <Link key={sequence.id} to={`user/${userId}/sequence/${sequence.id}`} className="sequences__link">
           <div className="sequences__item">
             <h3 className="sequences__item-name">{sequence.name}</h3>
             <p className="sequences__item-created">Created: {new Date(sequence.created_at).toLocaleString()}</p>
