@@ -7,12 +7,12 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, itemName, onConfirm, 
   }
 
   return (
-    <div className="delete-modal">
-      <div className="delete-modal__content">
+    <div className="modal">
+      <div className="modal__content">
         <p>Êtes-vous sûr de vouloir supprimer {itemName}?</p>
-        <div className="delete-modal__actions">
-          <button className="delete-modal__cancel" onClick={onCancel}>Annuler</button>
-          <button className="delete-modal__confirm" onClick={onConfirm}>Supprimer</button>
+        <div className="modal__actions">
+          <button className="modal__cancel" onClick={onCancel}>Annuler</button>
+          <button className="modal__confirm" onClick={onConfirm}>Supprimer</button>
         </div>
       </div>
     </div>

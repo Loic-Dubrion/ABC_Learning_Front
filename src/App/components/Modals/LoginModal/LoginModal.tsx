@@ -61,22 +61,22 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
 
   return (
     <div className="modal">
-      <div className="modal-content">
-        <h2>Login</h2>
-        {error && <div className="error">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="input-group">
-            <label>Username</label>
-            <input type="text" name="username" value={formData.username} onChange={handleChange} />
+      <div className="modal__content">
+        <h2 className="modal__title">Se connecter</h2>
+        {error && <div className="modal__error">{error}</div>}
+        <form className="modal__form" onSubmit={handleSubmit}>
+          <div className="modal__input-group">
+            <label className="modal__label">Pseudo</label>
+            <input className="modal__input" type="text" name="username" value={formData.username} onChange={handleChange} />
           </div>
-          <div className="input-group">
-            <label>Password</label>
-            <input type="password" name="password" value={formData.password} onChange={handleChange} />
+          <div className="modal__input-group">
+            <label className="modal__label">Mot de passe</label>
+            <input className="modal__input" type="password" name="password" value={formData.password} onChange={handleChange} />
           </div>
-          <button type="submit" disabled={isSubmitting}>Login</button>
+          <button className="modal__button" type="submit" disabled={isSubmitting}>Login</button>
         </form>
       </div>
-      <div className="modal-overlay" onClick={onClose}></div>
+      <div className="modal__overlay" onClick={onClose}></div>
     </div>
   );
 }

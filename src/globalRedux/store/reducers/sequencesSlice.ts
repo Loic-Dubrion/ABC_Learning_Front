@@ -1,7 +1,7 @@
 // slices/sequenceSlice.ts
-import { Sequence, SequencesState } from '../../../App/components/User/SequencesList/SequencesTypes'
+import { Sequence, SequencesState } from '../../../App/components/User/SequencesList/SequencesTypes';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './index';  // Importez le RootState depuis l'emplacement approprié
+import { RootState } from './index';
 
 const initialState: SequencesState = {
   sequences: [],
@@ -40,7 +40,7 @@ export const selectSequenceById = (state: RootState, sequenceId: number) =>
 export const {
   fetchSequencesStart,
   fetchSequencesSuccess,
-  fetchSequencesFailure
+  fetchSequencesFailure,
 } = sequencesSlice.actions;
 
 // Exportation du reducer

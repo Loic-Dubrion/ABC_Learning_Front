@@ -11,8 +11,8 @@ const username = localStorage.getItem('username');
 
 const Profil = () => {
     const tabs = [
+      { label: "Mes Scénarii", component: <Sequences /> },
       { label: "Profil Infos", component: <ProfilInfos /> },
-      { label: "Mes Scénarii", component: <Sequences /> }
     ];
 
     return (

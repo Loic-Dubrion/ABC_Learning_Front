@@ -44,7 +44,7 @@ export const selectSequenceDetail = (state: RootState) => state.sequenceDetail.s
 export const {
   fetchSequenceDetailStart,
   fetchSequenceDetailSuccess,
-  fetchSequenceDetailFailure
+  fetchSequenceDetailFailure,
 } = sequenceDetailSlice.actions;
 
 // Exportation du reducer

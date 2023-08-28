@@ -1,70 +1,94 @@
 import React, { useState, useEffect } from 'react';
-import DeleteModal from '../../Modals/DeleteModal/DeleteModal'; // Assurez-vous d'importer le bon chemin
-import './Sequence.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosInstance from '../../../../utils/axios';
+import { useNavigate } from 'react-router-dom';
+import DeleteModal from '../../Modals/DeleteModal/DeleteModal';
+import './Sequence.scss';
 import { SequenceDetail } from './SequenceTypes';
 import { RootState } from '../../../../globalRedux/store/reducers/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
-
 import { fetchSequenceDetailStart, fetchSequenceDetailSuccess, fetchSequenceDetailFailure } from '../../../../globalRedux/store/reducers/sequenceDetailSlice';
 
 const Sequence: React.FC = () => {
+  // Hooks et utilitaires Redux
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Utilisé pour naviguer entre les pages
+
+  // Sélectionne les détails de la séquence depuis le state Redux
   const sequenceDetail = useSelector((state: RootState) => state.sequenceDetail.sequence);
+  
+  // Récupère l'ID utilisateur depuis le localStorage
   const userId = localStorage.getItem('userId');
+
+  // Extrait l'ID de la séquence depuis l'URL
   const sequenceId = window.location.pathname.split('/').pop();
 
+  // État local pour gérer l'ouverture/fermeture de la modale de suppression
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentModalType, setCurrentModalType] = useState<'DELETE_SEQUENCE' | 'DELETE_SESSION' | null>(null);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchSequenceDetail = async () => {
-      if (userId && sequenceId) {
-        dispatch(fetchSequenceDetailStart());
-        try {
-          const response = await axiosInstance.get(`/user/${userId}/sequence/${sequenceId}`);
-          dispatch(fetchSequenceDetailSuccess(response.data[0]));
-        } catch (error) {
-          dispatch(fetchSequenceDetailFailure(error.message));
-        }
+  const fetchSequenceDetail = async () => {
+    if (userId && sequenceId) {
+      dispatch(fetchSequenceDetailStart());
+      try {
+        const response = await axiosInstance.get(`/user/${userId}/sequence/${sequenceId}`);
+        dispatch(fetchSequenceDetailSuccess(response.data[0]));
+      } catch (error) {
+        dispatch(fetchSequenceDetailFailure(error.message));
       }
     }
+  };
 
+  // Effect pour récupérer les détails de la séquence dès le montage du composant
+  useEffect(() => {
     fetchSequenceDetail();
-  }, [userId, sequenceId, dispatch]);
+}, [userId, sequenceId, dispatch]);
 
+  // Fonction pour ouvrir la modale de suppression avec le bon type et ID de session (si nécessaire)
   const openModal = (type: 'DELETE_SEQUENCE' | 'DELETE_SESSION', sessionId?: string) => {
     setCurrentModalType(type);
     if (sessionId) setCurrentSessionId(sessionId);
     setModalOpen(true);
   }
 
+  // Fonction pour fermer la modale de suppression
   const closeModal = () => {
     setCurrentModalType(null);
     setCurrentSessionId(null);
     setModalOpen(false);
   }
 
+  // Gère la suppression lors de la confirmation dans la modale
   const handleConfirm = async () => {
     if (!userId) return;
 
-    if (currentModalType === 'DELETE_SEQUENCE' && sequenceId) {
-      await axiosInstance.delete(`/user/${userId}/sequence/${sequenceId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      });
-    } else if (currentModalType === 'DELETE_SESSION' && currentSessionId) {
-      await axiosInstance.delete(`/user/${userId}/session/${currentSessionId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        }
-      });
+    try {
+      if (currentModalType === 'DELETE_SEQUENCE' && sequenceId) {
+        await axiosInstance.delete(`/user/${userId}/sequence/${sequenceId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+
+        // Redirige l'utilisateur vers la page /profil après suppression
+        navigate('/profil');
+      } else if (currentModalType === 'DELETE_SESSION' && currentSessionId) {
+        await axiosInstance.delete(`/user/${userId}/session/${currentSessionId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+
+        // Actualise les détails de la séquence après suppression d'une session
+        fetchSequenceDetail();
+      }
+    } catch (error) {
+      console.error("Erreur lors de la suppression:", error);
+    } finally {
+      closeModal();
     }
-    closeModal();
   }
 
   return (
@@ -90,7 +114,12 @@ const Sequence: React.FC = () => {
               </div>
               <h4 className="sequence__session-tool">Outil: {session.tool_name}</h4>
               <ul>
-                {/* ... autres détails de la session ... */}
+                <li>Commentaire: {session.comments}</li>
+                <li>Durée: {session.time}</li>
+                <li>Equipement: {session.equipment} </li>
+                <li>Difficulté: {session.level_name} </li>
+                <li>Présentiel: {session.is_face_to_face} </li>
+                <li>Travail de groupe: {session.is_group_work} </li>
               </ul>
             </div>
           ))}
