@@ -213,7 +213,7 @@ const Sequence: React.FC = () => {
         </>
 
       ) : (
-        <p>Loading sequence details...</p>
+        <p>Il n'y a pas encore de session pour ce scénario !</p>
       )}
 
     </div>
