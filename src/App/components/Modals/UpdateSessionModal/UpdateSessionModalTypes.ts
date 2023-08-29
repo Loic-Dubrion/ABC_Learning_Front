@@ -1,8 +1,11 @@
 // UpdateSessionModalTypes.ts
+import { Session } from '../../User/SequenceDetail/SequenceTypes'
+
 export interface FormModalProps {
   isOpen: boolean;
   onSubmit: (data: FormData) => void;
   onCancel: () => void;
+  initialData?: Session | null;
 }
 
 export interface FormData {

@@ -1,6 +1,8 @@
+// SequenceDetailTypes.ts
 export type Session = {
   session_id: number;
   session_name: string;
+  activity_id: number;
   card_name: string;
   tool_name: string;
   comments: string;

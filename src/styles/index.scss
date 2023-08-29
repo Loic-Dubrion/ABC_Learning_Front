@@ -14,3 +14,27 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
 }
+
+.acquisition {
+  background-color: v.$color-acquisition;
+}
+
+.collaboration {
+  background-color: v.$color-collaboration;
+}
+
+.discussion {
+  background-color: v.$color-discussion;
+}
+
+.investigation {
+  background-color: v.$color-investigation;
+}
+
+.pratique {
+  background-color: v.$color-pratique;
+}
+
+.production {
+  background-color: v.$color-production;
+}

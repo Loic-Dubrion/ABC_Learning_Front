@@ -62,7 +62,7 @@ function CardDesk() {
               name={item.name}
               activities={item.activities}
               comments={item.comments}
-              className={`card-desk--cardId=${item.id}`}
+              className={`card-desk--cardId=${item.id}  ${item.name.toLowerCase()}`}
             />
           </div>
         ))}

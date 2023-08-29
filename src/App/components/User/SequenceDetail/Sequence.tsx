@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../Modals/DeleteModal/DeleteModal';
 import './Sequence.scss';
 import { SequenceDetail, Session } from './SequenceTypes';
+import { FormData } from '../../Modals/UpdateSessionModal/UpdateSessionModalTypes';
 import UpdateSessionModal from '../../Modals/UpdateSessionModal/UpdateSessionModal'
 import { RootState } from '../../../../globalRedux/store/reducers/index';
 import axiosInstance from '../../../../utils/axios';
@@ -18,7 +19,8 @@ const Sequence: React.FC = () => {
 
   // Sélectionne les détails de la séquence depuis le state Redux
   const sequenceDetail = useSelector((state: RootState) => state.sequenceDetail.sequence);
-  
+  console.log(sequenceDetail);
+
   // Récupère l'ID utilisateur depuis le localStorage
   const userId = localStorage.getItem('userId');
 
@@ -50,7 +52,7 @@ const Sequence: React.FC = () => {
 //! Gestion de l'update
   // États pour la modal de mise à jour
   const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
-  const [currentSessionData, setCurrentSessionData] = useState<Session | null>(null);
+  const [currentSessionData, setCurrentSessionData] = useState<Session | undefined>();
 
   // Ouvrir la modal de mise à jour
   const openUpdateModal = (session: Session) => {
@@ -60,16 +62,41 @@ const Sequence: React.FC = () => {
 
   // Fermer la modal de mise à jour
   const closeUpdateModal = () => {
-    setCurrentSessionData(null);
+    setCurrentSessionData(undefined);
     setUpdateModalOpen(false);
   };
 
   // Gérer la mise à jour des données
   const handleUpdate = async (updatedData: FormData) => {
-    // Ici, ajoutez le code pour envoyer les données mises à jour à votre backend
-    // Une fois terminé, actualisez vos données et fermez la modal
+    if (!userId || !currentSessionData) return;
+
+    try {
+      // Création de l'objet session mis à jour
+      const sessionUpdate = {
+        name: updatedData.name,
+        activity_id: updatedData.activity_id,
+        comments: updatedData.comments,
+        time: updatedData.time,
+        is_face_to_face: updatedData.is_face_to_face,
+        is_group_work: updatedData.is_group_work,
+        equipment: updatedData.equipment
+      };
+    
+    console.log(sessionUpdate);
+
+    // Effectuer la requête PUT
+    await axiosInstance.put(`/user/${userId}/session/${currentSessionData.session_id}`, sessionUpdate, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    });
+
+    // Rafraîchissez vos données et fermez la modal une fois la mise à jour terminée
     fetchSequenceDetail();
     closeUpdateModal();
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour de la session:", error);
+  }
   };
 
   //! Fin gestion de l'update
@@ -135,7 +162,7 @@ const Sequence: React.FC = () => {
           {sequenceDetail.sessions && sequenceDetail.sessions.map((session) => (
             <div key={session.session_id} className={`sequence__session sequence__session--${session.card_name.toLowerCase()}`}>
               <div className="sequence__session-header">
-                <h3 className="sequence__session-name">{session.session_name}</h3>
+                <h3 className="sequence__session-name">{session.session_name} - <span>{session.card_name}</span></h3>
 
                 <button className="sequence__edit-btn" onClick={() => openUpdateModal(session)}>
                   <FontAwesomeIcon icon={faPencilAlt} />
@@ -153,8 +180,8 @@ const Sequence: React.FC = () => {
                 <li>Durée (en min): {session.time}</li>
                 <li>Equipement: {session.equipment} </li>
                 <li>Difficulté: {session.level_name} </li>
-                <li>Présentiel: {session.is_face_to_face} </li>
-                <li>Travail de groupe: {session.is_group_work} </li>
+                <li>Présentiel: {session.is_face_to_face?"OUI":"NON"} </li>
+                <li>Travail de groupe: {session.is_group_work?"OUI":"NON"} </li>
               </ul>
 
             </div>
@@ -166,6 +193,7 @@ const Sequence: React.FC = () => {
             </button>
           </div>
 
+          {/* Modal de supression */}
           <DeleteModal
             isOpen={isModalOpen}
             itemName={currentModalType === 'DELETE_SEQUENCE' ? 'la séquence' : 'la session'}
@@ -174,13 +202,13 @@ const Sequence: React.FC = () => {
             onCancel={closeModal}
           />
 
-                {/* Modal de mise à jour */}
-      <UpdateSessionModal
-        isOpen={isUpdateModalOpen}
-        onSubmit={handleUpdate}
-        onCancel={closeUpdateModal}
-        initialData={currentSessionData} // Ajoutez ceci à votre FormModal pour préremplir la modal avec les données existantes
-      />
+          {/* Modal de mise à jour */}
+          <UpdateSessionModal
+            isOpen={isUpdateModalOpen}
+            onSubmit={handleUpdate}
+            onCancel={closeUpdateModal}
+            {...(currentSessionData ? { initialData: currentSessionData } : {})}
+          />
 
         </>
 
