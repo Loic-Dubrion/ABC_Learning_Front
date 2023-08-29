@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './Header.scss';
-import LoginModal from '../../components/Modals/LoginModal/LoginModal'; // Ajustez le chemin d'accès
+import LoginModal from '../../components/Modals/LoginModal/LoginModal';
+import CreateSequenceModal from '../../components/Modals/CreateSequenceModal/CreateSequenceModal';
 import { toggleMenu } from '../../../globalRedux/store/reducers/menuSlice';
 import { HeaderProps } from './HeaderTypes';
 
 function Header({ logo, title, subtitle }: HeaderProps) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isMenuOpen = useSelector(state => state.menu.isOpen);
 
-  // Etat pour le contrôle de l'affichage de la modal
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isCreateSequenceModalOpen, setIsCreateSequenceModalOpen] = useState(false);
 
-  // Gestionnaire pour ouvrir la modal de connexion
   const handleLoginClick = () => {
     setIsLoginModalOpen(true);
   };
 
-  // Gestionnaire pour fermer la modal de connexion
   const handleCloseLoginModal = () => {
     setIsLoginModalOpen(false);
+    navigate('/profil');
+  };
+
+  const handleCreateSequenceClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault(); // empêche le comportement par défaut du lien
+    setIsCreateSequenceModalOpen(true);
+  };
+
+  const handleCloseCreateSequenceModal = (sequenceName: string) => {
+    setIsCreateSequenceModalOpen(false);
+    navigate('/create-sequence');
   };
 
   return (
@@ -42,12 +53,13 @@ function Header({ logo, title, subtitle }: HeaderProps) {
       {isMenuOpen && (
         <div className="burger-menu">
           <Link to="#" onClick={handleLoginClick}>Se connecter</Link>
-          <Link to="/create-sequence">Créer un scénario</Link>
+          <Link to="#" onClick={handleCreateSequenceClick}>Créer un scénario</Link>
           <Link to="/profil">Profil</Link>
         </div>
       )}
 
       <LoginModal isOpen={isLoginModalOpen} onClose={handleCloseLoginModal} />
+      <CreateSequenceModal isOpen={isCreateSequenceModalOpen} onConfirm={handleCloseCreateSequenceModal} onCancel={() => setIsCreateSequenceModalOpen(false)} />
     </div>
   );
 }
