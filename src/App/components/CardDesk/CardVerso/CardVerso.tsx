@@ -13,14 +13,8 @@ const CardVerso: React.FC<CardVersoProps> = ({ data, onToolClick }) => {
   }
 
   return (
-    <div className="card-verso">
+    <div className="card-verso" >
       <h1>{data.card_name}</h1>
-
-      <ul>
-        {data.activities.map((activity, index) => (
-          <li key={index}>{activity}</li>
-        ))}
-      </ul>
 
       <div className="tool-categories"> {/* Conteneur pour toutes les catégories d'outils */}
         {data.tool_categories.map((category) => (

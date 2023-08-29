@@ -5,7 +5,7 @@ import Footer from '../../components/Footer/Footer'; // Assurez-vous d'avoir le 
 const Home = () => {
     return (
         <div className="home">
-          <Header logo="/logo.png" title="ABC Learning" subtitle="Création de scénario" />
+          <Header logo="/logo.png" title="ABC Learning" subtitle="Création de scénario d'apprentisssage" />
             
             <div className="home-content">
                 <p>
