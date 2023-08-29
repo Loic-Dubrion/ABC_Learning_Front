@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axiosInstance from '../../../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../Modals/DeleteModal/DeleteModal';
 import './Sequence.scss';
-import { SequenceDetail } from './SequenceTypes';
+import { SequenceDetail, Session } from './SequenceTypes';
+import UpdateSessionModal from '../../Modals/UpdateSessionModal/UpdateSessionModal'
 import { RootState } from '../../../../globalRedux/store/reducers/index';
+import axiosInstance from '../../../../utils/axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { fetchSequenceDetailStart, fetchSequenceDetailSuccess, fetchSequenceDetailFailure } from '../../../../globalRedux/store/reducers/sequenceDetailSlice';
@@ -45,6 +46,34 @@ const Sequence: React.FC = () => {
   useEffect(() => {
     fetchSequenceDetail();
 }, [userId, sequenceId, dispatch]);
+
+//! Gestion de l'update
+  // États pour la modal de mise à jour
+  const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
+  const [currentSessionData, setCurrentSessionData] = useState<Session | null>(null);
+
+  // Ouvrir la modal de mise à jour
+  const openUpdateModal = (session: Session) => {
+    setCurrentSessionData(session); 
+    setUpdateModalOpen(true);
+  };
+
+  // Fermer la modal de mise à jour
+  const closeUpdateModal = () => {
+    setCurrentSessionData(null);
+    setUpdateModalOpen(false);
+  };
+
+  // Gérer la mise à jour des données
+  const handleUpdate = async (updatedData: FormData) => {
+    // Ici, ajoutez le code pour envoyer les données mises à jour à votre backend
+    // Une fois terminé, actualisez vos données et fermez la modal
+    fetchSequenceDetail();
+    closeUpdateModal();
+  };
+
+  //! Fin gestion de l'update
+
 
   // Fonction pour ouvrir la modale de suppression avec le bon type et ID de session (si nécessaire)
   const openModal = (type: 'DELETE_SEQUENCE' | 'DELETE_SESSION', sessionId?: string) => {
@@ -95,39 +124,48 @@ const Sequence: React.FC = () => {
     <div className="sequence">
       {sequenceDetail ? (
         <>
+
           <div className="sequence__header">
             <h2 className="sequence__title">{sequenceDetail.sequence_name}</h2>
             <button className="sequence__delete-btn" onClick={() => openModal('DELETE_SEQUENCE')}>
               <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>
+
           {sequenceDetail.sessions && sequenceDetail.sessions.map((session) => (
             <div key={session.session_id} className={`sequence__session sequence__session--${session.card_name.toLowerCase()}`}>
               <div className="sequence__session-header">
                 <h3 className="sequence__session-name">{session.session_name}</h3>
-                <button className="sequence__edit-btn">
+
+                <button className="sequence__edit-btn" onClick={() => openUpdateModal(session)}>
                   <FontAwesomeIcon icon={faPencilAlt} />
                 </button>
+
                 <button className="sequence__delete-btn" onClick={() => openModal('DELETE_SESSION', String(session.session_id))}>
                   <FontAwesomeIcon icon={faTrash} />
                 </button>
+
               </div>
+
               <h4 className="sequence__session-tool">Outil: {session.tool_name}</h4>
               <ul>
                 <li>Commentaire: {session.comments}</li>
-                <li>Durée: {session.time}</li>
+                <li>Durée (en min): {session.time}</li>
                 <li>Equipement: {session.equipment} </li>
                 <li>Difficulté: {session.level_name} </li>
                 <li>Présentiel: {session.is_face_to_face} </li>
                 <li>Travail de groupe: {session.is_group_work} </li>
               </ul>
+
             </div>
           ))}
+
           <div>
             <button className="sequence__add-btn">
               <FontAwesomeIcon icon={faPlus} />
             </button>
           </div>
+
           <DeleteModal
             isOpen={isModalOpen}
             itemName={currentModalType === 'DELETE_SEQUENCE' ? 'la séquence' : 'la session'}
@@ -135,10 +173,21 @@ const Sequence: React.FC = () => {
             onConfirm={handleConfirm}
             onCancel={closeModal}
           />
+
+                {/* Modal de mise à jour */}
+      <UpdateSessionModal
+        isOpen={isUpdateModalOpen}
+        onSubmit={handleUpdate}
+        onCancel={closeUpdateModal}
+        initialData={currentSessionData} // Ajoutez ceci à votre FormModal pour préremplir la modal avec les données existantes
+      />
+
         </>
+
       ) : (
         <p>Loading sequence details...</p>
       )}
+
     </div>
   );
 }

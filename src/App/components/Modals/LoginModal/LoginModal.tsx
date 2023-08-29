@@ -65,13 +65,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLoginSuccess
         <h2 className="modal__title">Se connecter</h2>
         {error && <div className="modal__error">{error}</div>}
         <form className="modal__form" onSubmit={handleSubmit}>
-          <div className="modal__input-group">
-            <label className="modal__label">Pseudo</label>
-            <input className="modal__input" type="text" name="username" value={formData.username} onChange={handleChange} />
+          <div className="modal__form--input-group">
+            <label className="modal__form--label">Pseudo</label>
+            <input className="modal__form--input" type="text" name="username" value={formData.username} onChange={handleChange} />
           </div>
-          <div className="modal__input-group">
-            <label className="modal__label">Mot de passe</label>
-            <input className="modal__input" type="password" name="password" value={formData.password} onChange={handleChange} />
+          <div className="modal__form--input-group">
+            <label className="modal__form--label">Mot de passe</label>
+            <input className="modal__form--input" type="password" name="password" value={formData.password} onChange={handleChange} />
           </div>
           <button className="modal__button" type="submit" disabled={isSubmitting}>Login</button>
         </form>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { DeleteModalProps } from './DeleteModalTypes';
 
+import '../Modals.scss';
+
 const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, itemName, onConfirm, onCancel }) => {
   if (!isOpen) {
     return null;

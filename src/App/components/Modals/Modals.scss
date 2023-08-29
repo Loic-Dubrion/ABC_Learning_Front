@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: center;
   z-index: 2000;
+  top: 10%;
 
   &__overlay {
     position: absolute;
@@ -27,6 +28,9 @@
     border-radius: 12px;
     box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
     z-index: 2;
+    max-height: 80vh;
+    overflow-y: auto;
+    border: 2px solid grey;
 
     p {
       font-size: 18px;
@@ -54,25 +58,28 @@
   }
 
   &__form {
-    &__input-group {
-      margin-bottom: 25px;
+    &--input-group {
+      margin-bottom: 5px;
+      display: flex;
+      flex-direction: column;
     }
-
-    &__label {
+  
+    &--label {
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 0.5rem;
       font-weight: 600;
       color: #34495e;
     }
-
-    &__input {
+  
+    &--input {
       width: 100%;
       padding: 15px 18px;
       border-radius: 8px;
       border: 2px solid #ecf0f1;
       font-size: 16px;
       transition: border-color 0.3s ease;
-
+      margin-top: 5px; // Espace supplémentaire entre le label et l'input
+  
       &:focus {
         outline-color: #3498db;
         border-color: #3498db;
