@@ -1,20 +1,37 @@
+// Import React
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+
+// Import css
 import './Header.scss';
+
+// Import modals
 import LoginModal from '../../components/Modals/LoginModal/LoginModal';
 import CreateSequenceModal from '../../components/Modals/CreateSequenceModal/CreateSequenceModal';
+
+// Import Redux
 import { toggleMenu } from '../../../globalRedux/store/reducers/menuSlice';
+import { clearTokens } from '../../../globalRedux/store/reducers/authSlice';
+
+// Import typage
 import { HeaderProps } from './HeaderTypes';
 
+// Composant
 function Header({ logo, title, subtitle }: HeaderProps) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isMenuOpen = useSelector(state => state.menu.isOpen);
+  const dispatch = useDispatch(); // Utilise Redux
+  const navigate = useNavigate(); // Utilise la redirection
 
+  //! Gestion des états
+  // Utilisation du hook useSelector pour récupérer l'état global
+  const isMenuOpen = useSelector(state => state.menu.isOpen);
+  const isUserLoggedIn = useSelector(state => state.auth.accessToken !== null);
+  
+  //Utilisation de useState pour attribuer un état local
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isCreateSequenceModalOpen, setIsCreateSequenceModalOpen] = useState(false);
 
+  //! Gestion des events
   const handleLoginClick = () => {
     setIsLoginModalOpen(true);
   };
@@ -34,6 +51,11 @@ function Header({ logo, title, subtitle }: HeaderProps) {
     navigate('/create-sequence');
   };
 
+  const handleLogout = () => {
+    dispatch(clearTokens()); 
+  };
+
+  //! Composant
   return (
     <div className="header">
       <Link to="/" className="header-logoLink">
@@ -52,14 +74,31 @@ function Header({ logo, title, subtitle }: HeaderProps) {
 
       {isMenuOpen && (
         <div className="burger-menu">
-          <Link to="#" onClick={handleLoginClick}>Se connecter</Link>
-          <Link to="#" onClick={handleCreateSequenceClick}>Créer un scénario</Link>
-          <Link to="/profil">Profil</Link>
+          {!isUserLoggedIn ? (
+            <>
+              <Link to="#" onClick={handleLoginClick}>Se connecter</Link>
+              <Link to="#">S'enregistrer</Link>
+            </>
+          ) : (
+            <>
+              <Link to="#" onClick={handleCreateSequenceClick}>Créer un scénario</Link>
+              <Link to="/profil">Profil</Link>
+              <Link to="#" onClick={handleLogout}>Se déconnecter</Link>
+            </>
+          )}
         </div>
       )}
 
-      <LoginModal isOpen={isLoginModalOpen} onClose={handleCloseLoginModal} />
-      <CreateSequenceModal isOpen={isCreateSequenceModalOpen} onConfirm={handleCloseCreateSequenceModal} onCancel={() => setIsCreateSequenceModalOpen(false)} />
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={handleCloseLoginModal} 
+      />
+      <CreateSequenceModal 
+        isOpen={isCreateSequenceModalOpen} 
+        onConfirm={handleCloseCreateSequenceModal} 
+        onCancel={() => setIsCreateSequenceModalOpen(false)} 
+      />
+    
     </div>
   );
 }
