@@ -42,13 +42,17 @@ function Header({ logo, title, subtitle }: HeaderProps) {
   };
 
   const handleCreateSequenceClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    event.preventDefault(); // empêche le comportement par défaut du lien
+    event.preventDefault();
     setIsCreateSequenceModalOpen(true);
   };
 
   const handleCloseCreateSequenceModal = (sequenceName: string) => {
     setIsCreateSequenceModalOpen(false);
     navigate('/create-sequence');
+  };
+
+  const handleCancelCreateSequence = () => {
+    setIsCreateSequenceModalOpen(false);
   };
 
   const handleLogout = () => {
@@ -96,7 +100,7 @@ function Header({ logo, title, subtitle }: HeaderProps) {
       <CreateSequenceModal 
         isOpen={isCreateSequenceModalOpen} 
         onConfirm={handleCloseCreateSequenceModal} 
-        onCancel={() => setIsCreateSequenceModalOpen(false)} 
+        onCancel={handleCancelCreateSequence} 
       />
     
     </div>

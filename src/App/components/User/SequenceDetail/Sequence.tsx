@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import DeleteModal from '../../Modals/DeleteModal/DeleteModal';
 import './Sequence.scss';
-import { SequenceDetail, Session } from './SequenceTypes';
+import { Session } from './SequenceTypes';
 import { FormData } from '../../Modals/UpdateSessionModal/UpdateSessionModalTypes';
 import UpdateSessionModal from '../../Modals/UpdateSessionModal/UpdateSessionModal'
 import { RootState } from '../../../../globalRedux/store/reducers/index';
@@ -15,28 +15,34 @@ import { fetchSequenceDetailStart, fetchSequenceDetailSuccess, fetchSequenceDeta
 const Sequence: React.FC = () => {
   // Hooks et utilitaires Redux
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Utilisé pour naviguer entre les pages
+  const navigate = useNavigate();
+
+  // Données du localStorage
+  const newSequenceId = localStorage.getItem('sequenceId');
+  const newSequenceName = localStorage.getItem('sequenceName');
+  const userId = localStorage.getItem('userId');
 
   // Sélectionne les détails de la séquence depuis le state Redux
   const sequenceDetail = useSelector((state: RootState) => state.sequenceDetail.sequence);
-  console.log(sequenceDetail);
-
-  // Récupère l'ID utilisateur depuis le localStorage
-  const userId = localStorage.getItem('userId');
 
   // Extrait l'ID de la séquence depuis l'URL
   const sequenceId = window.location.pathname.split('/').pop();
+
+  // Définition de l'id à utiliser
+  const createSequenceId = newSequenceId ? newSequenceId.toString() : null;
+  const finalSequenceId = createSequenceId || sequenceId;
 
   // État local pour gérer l'ouverture/fermeture de la modale de suppression
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentModalType, setCurrentModalType] = useState<'DELETE_SEQUENCE' | 'DELETE_SESSION' | null>(null);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
 
+  //! Opération de lecture d'un scénario
   const fetchSequenceDetail = async () => {
-    if (userId && sequenceId) {
+    if (userId && finalSequenceId) {
       dispatch(fetchSequenceDetailStart());
       try {
-        const response = await axiosInstance.get(`/user/${userId}/sequence/${sequenceId}`);
+        const response = await axiosInstance.get(`/user/${userId}/sequence/${finalSequenceId}`);
         dispatch(fetchSequenceDetailSuccess(response.data[0]));
       } catch (error) {
         dispatch(fetchSequenceDetailFailure(error.message));
@@ -47,9 +53,10 @@ const Sequence: React.FC = () => {
   // Effect pour récupérer les détails de la séquence dès le montage du composant
   useEffect(() => {
     fetchSequenceDetail();
-}, [userId, sequenceId, dispatch]);
+}, [userId, finalSequenceId, dispatch]);
+//! FIN Opération de lecture d'un scénario
 
-//! Gestion de l'update
+//! DEBUT Gestion de l'update
   // États pour la modal de mise à jour
   const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
   const [currentSessionData, setCurrentSessionData] = useState<Session | undefined>();
@@ -81,8 +88,6 @@ const Sequence: React.FC = () => {
         is_group_work: updatedData.is_group_work,
         equipment: updatedData.equipment
       };
-    
-    console.log(sessionUpdate);
 
     // Effectuer la requête PUT
     await axiosInstance.put(`/user/${userId}/session/${currentSessionData.session_id}`, sessionUpdate, {
@@ -98,10 +103,9 @@ const Sequence: React.FC = () => {
     console.error("Erreur lors de la mise à jour de la session:", error);
   }
   };
+//! FIN Gestion de l'update
 
-  //! Fin gestion de l'update
-
-
+//! DEBUT Gestion du delete
   // Fonction pour ouvrir la modale de suppression avec le bon type et ID de session (si nécessaire)
   const openModal = (type: 'DELETE_SEQUENCE' | 'DELETE_SESSION', sessionId?: string) => {
     setCurrentModalType(type);
@@ -121,8 +125,8 @@ const Sequence: React.FC = () => {
     if (!userId) return;
 
     try {
-      if (currentModalType === 'DELETE_SEQUENCE' && sequenceId) {
-        await axiosInstance.delete(`/user/${userId}/sequence/${sequenceId}`, {
+      if (currentModalType === 'DELETE_SEQUENCE' && finalSequenceId) {
+        await axiosInstance.delete(`/user/${userId}/sequence/${finalSequenceId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -146,6 +150,9 @@ const Sequence: React.FC = () => {
       closeModal();
     }
   }
+//! FIN Gestion du delete
+
+console.log('name: ', newSequenceName)
 
   return (
     <div className="sequence">
@@ -213,7 +220,10 @@ const Sequence: React.FC = () => {
         </>
 
       ) : (
-        <p>Il n'y a pas encore de session pour ce scénario !</p>
+        <>
+          <h2 className="sequence__title">{newSequenceName}</h2>
+          <p>Il n'y a pas encore de session pour ce scénario !</p>
+        </>
       )}
 
     </div>

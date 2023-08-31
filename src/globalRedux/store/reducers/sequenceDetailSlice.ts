@@ -1,16 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from './index'; // Assurez-vous d'avoir le bon chemin d'importation
-import { SequenceDetail } from '../../../App/components/User/SequenceDetail/SequenceTypes'; // Ajustez le chemin si nécessaire
+import { RootState } from './index'; 
+import { SequenceDetail } from '../../../App/components/User/SequenceDetail/SequenceTypes';
 
-// État initial pour la tranche 'sequenceDetail'
 interface SequenceDetailState {
   sequence: SequenceDetail | null;
+  newSequenceId: number | null;
+  newSequenceName: string; 
   loading: boolean;
   error: string | null;
 }
 
 const initialState: SequenceDetailState = {
   sequence: null,
+  newSequenceId: null,
+  newSequenceName: '',
   loading: false,
   error: null
 };
@@ -19,6 +22,10 @@ const sequenceDetailSlice = createSlice({
   name: 'sequenceDetail',
   initialState,
   reducers: {
+    setNewSequenceIdAndName: (state, action: PayloadAction<{ id: number, name: string }>) => {
+      state.newSequenceId = action.payload.id;
+      state.newSequenceName = action.payload.name; 
+    },
     fetchSequenceDetailStart: (state) => {
       state.loading = true;
       state.error = null;
@@ -45,6 +52,7 @@ export const {
   fetchSequenceDetailStart,
   fetchSequenceDetailSuccess,
   fetchSequenceDetailFailure,
+  setNewSequenceIdAndName, 
 } = sequenceDetailSlice.actions;
 
 // Exportation du reducer
