@@ -1,11 +1,9 @@
-// pages/Profil.tsx
-
 import React from 'react';
 import Header from '../../components/Header/Header'; 
 import Footer from '../../components/Footer/Footer'; 
 import Sequences from '../../components/User/SequencesList/Sequences'; 
 import ProfilInfos from '../../components/User/Profil/Profil';
-import Tabs from '../../components/User/Tabs/Tabs'; // Assurez-vous de l'importer correctement
+import Tabs from '../../components/User/Tabs/Tabs';
 
 const username = localStorage.getItem('username');
 

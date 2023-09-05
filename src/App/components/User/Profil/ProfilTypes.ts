@@ -1,5 +1,3 @@
-// ProfilTypes.ts
-
 export type Role = {
   role_name: string;
   authorisations: string;

@@ -6,7 +6,7 @@
   gap: 20px;
   justify-content: flex-start; 
 
-  > div {  // Cible directement les éléments enfants 'div' de .card-desk
+  > div {  
     flex: 1 1 400px;  
     max-width: calc(33.33% - 20px);  
   }

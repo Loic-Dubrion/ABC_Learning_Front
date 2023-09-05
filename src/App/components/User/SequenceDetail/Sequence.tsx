@@ -96,7 +96,7 @@ const Sequence: React.FC = () => {
       }
     });
 
-    // Rafraîchissez vos données et fermez la modal une fois la mise à jour terminée
+    // Rafraîchir less données et fermer la modal une fois la mise à jour terminée
     fetchSequenceDetail();
     closeUpdateModal();
   } catch (error) {
@@ -106,7 +106,7 @@ const Sequence: React.FC = () => {
 //! FIN Gestion de l'update
 
 //! DEBUT Gestion du delete
-  // Fonction pour ouvrir la modale de suppression avec le bon type et ID de session (si nécessaire)
+  // Fonction pour ouvrir la modale de suppression avec le bon type et ID de session
   const openModal = (type: 'DELETE_SEQUENCE' | 'DELETE_SESSION', sessionId?: string) => {
     setCurrentModalType(type);
     if (sessionId) setCurrentSessionId(sessionId);

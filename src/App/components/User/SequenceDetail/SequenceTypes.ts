@@ -1,4 +1,3 @@
-// SequenceDetailTypes.ts
 export type Session = {
   session_id: number;
   session_name: string;

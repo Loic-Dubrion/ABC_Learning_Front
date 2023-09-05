@@ -1,5 +1,3 @@
-// Profil.tsx
-
 import React, { useEffect, useState } from 'react';
 import './Profil.scss';
 import axiosInstance from '../../../../utils/axios';
@@ -51,12 +49,13 @@ const Profil: React.FC = () => {
         <span>{userInfo.establishment}</span>
         <button>Modifier</button>
       </div>
-      {/* Password - Just showing masked, assuming you don't have the real password here */}
+
       <div className="profil__info">
         <h4>Mot de passe</h4>
         <span>*******</span>
         <button>Modifier</button>
       </div>
+      
     </div>
   );
 }

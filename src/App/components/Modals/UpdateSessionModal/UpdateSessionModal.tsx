@@ -1,4 +1,3 @@
-// UpdateSessionModal.tsx
 import React, { useEffect, useState } from 'react';
 import { FormModalProps, FormData } from './UpdateSessionModalTypes';
 

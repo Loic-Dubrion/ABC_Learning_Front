@@ -1,4 +1,3 @@
-// UpdateSessionModalTypes.ts
 import { Session } from '../../User/SequenceDetail/SequenceTypes'
 
 export interface FormModalProps {

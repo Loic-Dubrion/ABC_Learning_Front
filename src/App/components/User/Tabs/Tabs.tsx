@@ -1,5 +1,3 @@
-// components/Tabs/Tabs.tsx
-
 import React, { useState } from 'react';
 import './Tabs.scss';
 

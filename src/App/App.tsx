@@ -41,5 +41,4 @@ function App() {
   );
 }
 
-// Exportation par défaut du composant App pour l'utiliser ailleurs dans l'application
 export default App;

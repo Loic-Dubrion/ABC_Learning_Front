@@ -1,6 +1,4 @@
-// Footer.tsx
-
-import './Footer.scss'; // Import du style SASS
+import './Footer.scss';
 
 interface FooterProps {
   copyright: string;

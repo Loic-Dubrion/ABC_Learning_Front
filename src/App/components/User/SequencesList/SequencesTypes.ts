@@ -1,5 +1,3 @@
-// types/SequenceTypes.ts
-
 export type Sequence = {
   id: number;
   name: string;
